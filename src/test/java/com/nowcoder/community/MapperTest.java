@@ -1,25 +1,17 @@
 package com.nowcoder.community;
 
-import com.nowcoder.community.dao.AlphaDao;
-import com.nowcoder.community.dao.DiscussPostMapper;
-import com.nowcoder.community.dao.UserMapper;
+import com.nowcoder.community.dao.*;
 import com.nowcoder.community.entity.DiscussPost;
+import com.nowcoder.community.entity.LoginTicket;
+import com.nowcoder.community.entity.Message;
 import com.nowcoder.community.entity.User;
-import com.nowcoder.community.service.AlphaService;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.context.ApplicationContext;
-import org.springframework.context.ApplicationContextAware;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringRunner;
-import org.thymeleaf.spring5.context.SpringContextUtils;
 
-import javax.xml.stream.XMLOutputFactory;
-import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
@@ -33,6 +25,12 @@ public class MapperTest {
 
     @Autowired
     private DiscussPostMapper discussPostMapper;
+
+    @Autowired
+    private LoginTicketMapper loginTicketMapper;
+
+    @Autowired
+    private MessageMapper messageMapper;
 
     @Test
     public void testSelectUser(){
@@ -76,5 +74,45 @@ public class MapperTest {
         }
 
         System.out.println(discussPostMapper.selectDiscussPostRows(149));
+    }
+
+    @Test
+    public void testInsertLoginTicket(){
+        LoginTicket loginTicket = new LoginTicket();
+        loginTicket.setUserId(1);
+        loginTicket.setTicket("cylovemm");
+        loginTicket.setStatus(0);
+        loginTicket.setExpired(new Date(System.currentTimeMillis() + 1000 * 60 * 10));
+        loginTicketMapper.insertLoginTicket(loginTicket);
+    }
+
+    @Test
+    public void testSelectLoginTicket(){
+        System.out.println(loginTicketMapper.selectByTicket("cylovemm"));
+    }
+
+    @Test
+    public void testUpdateLoginTicket(){
+        loginTicketMapper.updateStatus("cylovemm", 1);
+        System.out.println(loginTicketMapper.selectByTicket("cylovemm"));
+    }
+
+    @Test
+    public void testMessage(){
+        List<Message> list = messageMapper.selectConversations(111, 0, 20);
+        for (Message message : list) {
+            System.out.println(message);
+        }
+
+        System.out.println(messageMapper.selectConversationCount(111));
+
+        List<Message> list1 = messageMapper.selectLetters("111_112", 0, 10);
+        for (Message message : list1) {
+            System.out.println(message);
+
+        }
+
+        System.out.println(messageMapper.selectLetterCount("111_112"));
+        System.out.println(messageMapper.selectLetterUnreadCount(131,"111_131"));
     }
 }

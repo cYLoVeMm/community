@@ -2,6 +2,7 @@ package com.nowcoder.community;
 
 import com.nowcoder.community.dao.AlphaDao;
 import com.nowcoder.community.service.AlphaService;
+import com.nowcoder.community.util.CommunityUtil;
 import com.nowcoder.community.util.MailClient;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -37,13 +38,21 @@ public class MailTests {
 
     @Test
     public void testHtmlMail(){
+        //Context context = new Context();
+        //context.setVariable("username", "sunday");
+        //
+        //String content = templateEngine.process("/mail/demo", context);
+        //
+        //System.out.println(content);
+        //
+        //mailClient.sendMail("256882828@qq.com", "HTML", content);
+        //发送验证码邮件
         Context context = new Context();
-        context.setVariable("username", "sunday");
-
-        String content = templateEngine.process("/mail/demo", context);
-
-        System.out.println(content);
-
-        mailClient.sendMail("256882828@qq.com", "HTML", content);
+        context.setVariable("email", "506289940@qq.com");
+        // http://localhost:8080/community/activation/101/code
+        String verificode = CommunityUtil.generateUUID().substring(0, 5);
+        context.setVariable("verificode", verificode);
+        String content = templateEngine.process("/mail/forget", context);
+        mailClient.sendMail("506289940@qq.com", "验证码", content);
     }
 }

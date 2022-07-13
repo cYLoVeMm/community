@@ -1,6 +1,7 @@
 package com.nowcoder.community.service;
 
 import com.nowcoder.community.dao.AlphaDao;
+import com.nowcoder.community.dao.DiscussPostMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,6 +19,8 @@ public class AlphaService {
     @Autowired
     private AlphaDao alphaDao;
 
+    @Autowired
+    private DiscussPostMapper discussPostMapper;
 
     public AlphaService() {
 //        System.out.println("实例化AlphaService");
