@@ -18,7 +18,7 @@
         where status = 0
         and entity_type = #{entityType}
         and entity_id = #{entityId}
-        order by create_time asc
+        order by create_time DESC
         limit #{offset}, #{limit}
     </select>
 
@@ -34,5 +34,11 @@
         insert into comment (<include refid="insetFields"></include>)
         values (#{userId},#{entityType},#{entityId},#{targetId},#{content},#{status},#{createTime})
     </insert>
+
+    <select id="selectCommentById" resultType="Comment">
+        SELECT <include refid="selectFields"></include>
+        FROM comment
+        WHERE id = #{id}
+    </select>
 
 </mapper>
