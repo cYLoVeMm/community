@@ -1,50 +1,42 @@
 package com.nowcoder.community.entity;
 
+import org.springframework.data.annotation.Id;
 import org.springframework.data.elasticsearch.annotations.Document;
 import org.springframework.data.elasticsearch.annotations.Field;
 import org.springframework.data.elasticsearch.annotations.FieldType;
 
 import java.util.Date;
 
-/**
- * 帖子实体类
- */
 @Document(indexName = "discusspost", type = "_doc", shards = 6, replicas = 3)
 public class DiscussPost {
 
+    @Id
     private int id;
+
+    @Field(type = FieldType.Integer)
     private int userId;
-    //标题
+
+    // 互联网校招
     @Field(type = FieldType.Text, analyzer = "ik_max_word", searchAnalyzer = "ik_smart")
     private String title;
-    //内容
+
     @Field(type = FieldType.Text, analyzer = "ik_max_word", searchAnalyzer = "ik_smart")
     private String content;
-    //类型 0普通 1置顶
-    private int type;
-    //状态 0表示正常 1表示精华 2表示拉黑
-    private int status;
-    //创建时间
-    private Date createTime;
-    //冗余字段 评论的数量
-    private int commentCount;
-    //评分
-    private double score;
 
-    @Override
-    public String toString() {
-        return "DiscussPost{" +
-                "id=" + id +
-                ", userId=" + userId +
-                ", title='" + title + '\'' +
-                ", content='" + content + '\'' +
-                ", type=" + type +
-                ", status=" + status +
-                ", createTime=" + createTime +
-                ", commentCount=" + commentCount +
-                ", score=" + score +
-                '}';
-    }
+    @Field(type = FieldType.Integer)
+    private int type;
+
+    @Field(type = FieldType.Integer)
+    private int status;
+
+    @Field(type = FieldType.Date)
+    private Date createTime;
+
+    @Field(type = FieldType.Integer)
+    private int commentCount;
+
+    @Field(type = FieldType.Double)
+    private double score;
 
     public int getId() {
         return id;
@@ -116,5 +108,20 @@ public class DiscussPost {
 
     public void setScore(double score) {
         this.score = score;
+    }
+
+    @Override
+    public String toString() {
+        return "DiscussPost{" +
+                "id=" + id +
+                ", userId=" + userId +
+                ", title='" + title + '\'' +
+                ", content='" + content + '\'' +
+                ", type=" + type +
+                ", status=" + status +
+                ", createTime=" + createTime +
+                ", commentCount=" + commentCount +
+                ", score=" + score +
+                '}';
     }
 }
